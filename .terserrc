@@ -1,0 +1,12 @@
+{
+  "compress": {
+    "module": true,
+    "passes": 7,
+    "ecma": 2020
+  },
+  "mangle": {
+    "properties": {
+        "regex": "^_*"
+    }
+  }
+}
