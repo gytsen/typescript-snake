@@ -66,7 +66,7 @@ export class Snake {
 
   public updateDirection(): void {
     if (!this._isValidChange()) {
-        return;
+      return;
     }
 
     this._direction = this._requestedDirection;
@@ -82,7 +82,7 @@ export class Snake {
   public addNewHead(newHead: Coordinate, preserveTail: boolean = false): void {
     this.body.unshift(newHead);
     if (!preserveTail) {
-        this.body.pop();
+      this.body.pop();
     }
   }
 }

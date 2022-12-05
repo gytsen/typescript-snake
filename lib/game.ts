@@ -1,6 +1,7 @@
 import { Coordinate } from "./coordinate";
 import { Screen } from "./screen";
 import { Direction, Snake } from "./snake";
+import { random, floor, global } from "./util";
 
 const HEIGHT = 24;
 const WIDTH = 24;
@@ -8,11 +9,18 @@ const WIDTH = 24;
 const BLACK = "#000";
 const RED = "#F00";
 
+const ARROW = "Arrow";
+const ARROW_UP = ARROW + "Up";
+const ARROW_DOWN = ARROW + "Down";
+const ARROW_LEFT = ARROW + "Left";
+const ARROW_RIGHT = ARROW + "Right";
+
+
 const FPS = 5;
 const FPS_MILLIS = 1000 / FPS;
 
-const random = (max: number) => {
-  return Math.floor(Math.random() * Math.floor(max));
+const boundedRandom = (max: number) => {
+  return floor(random() * floor(max));
 };
 
 export class Game {
@@ -29,7 +37,10 @@ export class Game {
   }
 
   public start(): void {
-    this._interval = setInterval(() => window.requestAnimationFrame(() => this._gameTick()), FPS_MILLIS);
+    this._interval = setInterval(
+      () => global.requestAnimationFrame(() => this._gameTick()),
+      FPS_MILLIS
+    );
   }
 
   public running(): boolean {
@@ -76,8 +87,8 @@ export class Game {
 
     do {
       apple = new Coordinate(
-        random(this._screen.width),
-        random(this._screen.height)
+        boundedRandom(this._screen.width),
+        boundedRandom(this._screen.height)
       );
     } while (this._snake.contains(apple));
 
@@ -87,19 +98,19 @@ export class Game {
   public handleKeypress(event: KeyboardEvent): void {
     switch (event.key) {
       case "w":
-      case "ArrowUp":
+      case ARROW_UP:
         this._snake.requestDirectionChange(Direction.up);
         break;
       case "s":
-      case "ArrowDown":
+      case ARROW_DOWN:
         this._snake.requestDirectionChange(Direction.down);
         break;
       case "a":
-      case "ArrowLeft":
+      case ARROW_LEFT:
         this._snake.requestDirectionChange(Direction.left);
         break;
       case "d":
-      case "ArrowRight":
+      case ARROW_RIGHT:
         this._snake.requestDirectionChange(Direction.right);
         break;
       default:

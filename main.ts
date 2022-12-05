@@ -1,25 +1,27 @@
 import { Game } from "./lib/game";
+import { addEventListener, getElementById, documentAlias } from "./lib/util";
 
-((window, document) => {
-    let game: Game | null;
+(() => {
+  let game: Game | null;
 
-    const running = (): boolean => game?.running() ?? false;
+  const running = (): boolean => game?.running() ?? false;
 
-    const onStart = (event: MouseEvent): void => {
-        if (running()) {
-            return;
-        }
-
-        const canvas = document.getElementById('snake-canvas') as HTMLCanvasElement;
-
-        game ??= new Game(canvas);
-
-        document.addEventListener('keypress', (e: KeyboardEvent) => game.handleKeypress(e));
-        game.start();
+  const onStart = (event: MouseEvent): void => {
+    if (running()) {
+      return;
     }
 
-    const startButton = document.getElementById('start-empty');
+    const canvas = getElementById(documentAlias, "snake-canvas") as HTMLCanvasElement;
 
-    startButton.addEventListener('click', onStart);
+    game ??= new Game(canvas);
 
-})(window, document);
+    addEventListener(documentAlias, "keypress", (e: KeyboardEvent) =>
+      game.handleKeypress(e)
+    );
+    game.start();
+  };
+
+  const startButton = getElementById(documentAlias, "start-empty");
+
+  addEventListener(startButton, "click", onStart);
+})();
