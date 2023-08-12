@@ -1,28 +1,16 @@
-const global = globalThis;
-const documentAlias = global.document;
+export const global = globalThis;
+export const documentAlias = global.document;
 
 const { bind, call } = Function.prototype;
 
-const uncurryThis = bind.bind(call);
-const math = Math;
+export const uncurryThis = bind.bind(call);
+export const math = Math;
 
-const max = math.max;
-const floor = math.floor;
-const random = math.random;
+export const max = math.max;
+export const floor = math.floor;
+export const random = math.random;
 
-const querySelector = uncurryThis(documentAlias.querySelector);
-const querySelectorAll = uncurryThis(documentAlias.querySelectorAll);
-const getElementById = uncurryThis(documentAlias.getElementById);
-const addEventListener = uncurryThis(global.addEventListener);
-
-export {
-  max,
-  floor,
-  random,
-  querySelector,
-  querySelectorAll,
-  getElementById,
-  addEventListener,
-  documentAlias,
-  global,
-};
+export const querySelector = uncurryThis(documentAlias.querySelector);
+export const querySelectorAll = uncurryThis(documentAlias.querySelectorAll);
+export const getElementById = uncurryThis(documentAlias.getElementById);
+export const addEventListener = uncurryThis(global.addEventListener);
