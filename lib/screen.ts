@@ -1,25 +1,19 @@
 import { Coordinate } from "./coordinate";
-import { $floor, wrappingClamp } from "./util";
+import { $floor, BLACK, wrappingClamp } from "./util";
 
-const BLACK = "#000";
+const borderSize = 3;
+const boxSize = 20;
+const trimmedBoxSize = boxSize - borderSize;
 
 export class Screen {
   private readonly _context: CanvasRenderingContext2D;
-  private readonly _boxSize: number;
-
-  private readonly _borderSize: number;
-  private readonly _borderTranspose: Coordinate;
 
   public readonly height: number;
   public readonly width: number;
 
   public readonly canvas: HTMLCanvasElement;
 
-  constructor(
-    canvas: HTMLCanvasElement,
-    borderSize: number = 3,
-    boxSize: number = 20,
-  ) {
+  constructor(canvas: HTMLCanvasElement) {
     if (canvas.width % boxSize !== 0 || canvas.height % boxSize !== 0) {
       throw new Error(
         `${canvas.height} or ${canvas.width} is not divisible by ${boxSize}`,
@@ -28,17 +22,10 @@ export class Screen {
 
     this.height = canvas.height / boxSize;
     this.width = canvas.width / boxSize;
-    this._boxSize = boxSize;
-    this._borderSize = borderSize;
-    this._borderTranspose = new Coordinate(borderSize, borderSize);
     this.canvas = canvas;
     this._context = canvas.getContext("2d")!;
 
     this.clear();
-  }
-
-  private get _trimmedBoxSize(): number {
-    return this._boxSize - this._borderSize;
   }
 
   public clear(): void {
@@ -63,26 +50,22 @@ export class Screen {
 
   public drawCoordinate(coordinate: Coordinate, color: string = BLACK): void {
     const canvasPoint = this._getCanvasDrawPoint(coordinate);
-    canvasPoint.add(this._borderTranspose);
 
     this._context.fillStyle = color;
     this._context.fillRect(
       canvasPoint.x,
       canvasPoint.y,
-      this._trimmedBoxSize,
-      this._trimmedBoxSize,
+      trimmedBoxSize,
+      trimmedBoxSize,
     );
     this._context.fillStyle = BLACK;
   }
 
   private _getCanvasDrawPoint(c: Coordinate): Coordinate {
-    return new Coordinate(c.x * this._boxSize, c.y * this._boxSize);
+    return new Coordinate(c.x * boxSize, c.y * boxSize);
   }
 
   public getCoordinateFromCanvas(c: Coordinate): Coordinate {
-    return new Coordinate(
-      $floor(c.x / this._boxSize),
-      $floor(c.y / this._boxSize),
-    );
+    return new Coordinate($floor(c.x / boxSize), $floor(c.y / boxSize));
   }
 }

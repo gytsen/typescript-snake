@@ -1,5 +1,7 @@
 export const CLICK = "click";
 export const BROWN = "#B62";
+export const BLACK = "#000";
+
 const PROTOTYPE = "prototype";
 const $reflect = Reflect;
 const $reflectGet = $reflect.get;
