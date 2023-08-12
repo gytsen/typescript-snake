@@ -4,11 +4,11 @@ import { Screen } from "./lib/screen";
 import { Coordinate } from "./lib/coordinate";
 import { GameMap } from "./lib/map";
 import {
-  createElement,
-  documentAlias,
-  getElementById,
-  setAttribute,
-  addEventListener,
+  $createElement,
+  $document,
+  $getElementById,
+  $setAttribute,
+  $addEventListener,
   CLICK,
   BROWN,
 } from "./lib/util";
@@ -41,17 +41,17 @@ const canvasClickHandler = (event: MouseEvent): void => {
 };
 
 const download = (text: string) => {
-  const element = createElement(documentAlias, "a") as HTMLAnchorElement;
-  setAttribute(
+  const element = $createElement($document, "a") as HTMLAnchorElement;
+  $setAttribute(
     element,
     "href",
     "data:text/plain;charset=utf-8," + encodeURIComponent(text),
   );
-  setAttribute(element, "download", "map.json");
+  $setAttribute(element, "download", "map.json");
   element.style.display = "none";
-  documentAlias.body.appendChild(element);
+  $document.body.appendChild(element);
   element.click();
-  documentAlias.body.removeChild(element);
+  $document.body.removeChild(element);
 };
 
 const save = () => {
@@ -64,19 +64,19 @@ const reset = () => {
   wallCount.innerText = 0;
 };
 
-const canvasElement = getElementById(
-  documentAlias,
+const canvasElement = $getElementById(
+  $document,
   "map-canvas",
 ) as HTMLCanvasElement;
 
-const resetButton = getElementById(documentAlias, "reset");
-const saveButton = getElementById(documentAlias, "download-map");
+const resetButton = $getElementById($document, "reset");
+const saveButton = $getElementById($document, "download-map");
 
-const wallCount = getElementById(documentAlias, "wall-count");
+const wallCount = $getElementById($document, "wall-count");
 
 const screen: Screen = new Screen(canvasElement);
 const map: GameMap = new GameMap(screen.width, screen.height, []);
 
-addEventListener(resetButton, CLICK, reset);
-addEventListener(saveButton, CLICK, save);
-addEventListener(screen.canvas, CLICK, canvasClickHandler);
+$addEventListener(resetButton, CLICK, reset);
+$addEventListener(saveButton, CLICK, save);
+$addEventListener(screen.canvas, CLICK, canvasClickHandler);

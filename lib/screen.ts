@@ -1,5 +1,5 @@
 import { Coordinate } from "./coordinate";
-import { floor } from "./util";
+import { $floor, wrappingClamp } from "./util";
 
 const BLACK = "#000";
 
@@ -46,20 +46,8 @@ export class Screen {
   }
 
   public wrap(c: Coordinate): Coordinate {
-    let x = c.x;
-    let y = c.y;
-
-    if (c.x > this.width - 1) {
-      x = 0;
-    } else if (c.x < 0) {
-      x = this.width - 1;
-    }
-
-    if (c.y > this.height - 1) {
-      y = 0;
-    } else if (c.y < 0) {
-      y = this.height - 1;
-    }
+    let x = wrappingClamp(c.x, 0, this.width - 1);
+    let y = wrappingClamp(c.y, 0, this.height - 1);
 
     return new Coordinate(x, y);
   }
@@ -93,8 +81,8 @@ export class Screen {
 
   public getCoordinateFromCanvas(c: Coordinate): Coordinate {
     return new Coordinate(
-      floor(c.x / this._boxSize),
-      floor(c.y / this._boxSize),
+      $floor(c.x / this._boxSize),
+      $floor(c.y / this._boxSize),
     );
   }
 }

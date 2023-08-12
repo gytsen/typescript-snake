@@ -52,15 +52,13 @@ export class Snake {
   }
 
   private _isValidChange(): boolean {
+    const direction = this._direction;
+    const requestedDirection = this._requestedDirection;
     return !(
-      (this._direction == Direction.up &&
-        this._requestedDirection == Direction.down) ||
-      (this._direction == Direction.down &&
-        this._requestedDirection == Direction.up) ||
-      (this._direction == Direction.left &&
-        this._requestedDirection == Direction.right) ||
-      (this._direction == Direction.right &&
-        this._requestedDirection == Direction.left)
+      (direction == Direction.up && requestedDirection == Direction.down) ||
+      (direction == Direction.down && requestedDirection == Direction.up) ||
+      (direction == Direction.left && requestedDirection == Direction.right) ||
+      (direction == Direction.right && requestedDirection == Direction.left)
     );
   }
 

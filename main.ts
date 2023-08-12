@@ -2,11 +2,12 @@ import "./styles.scss";
 
 import { Game } from "./lib/game";
 import {
-  addEventListener,
-  getElementById,
-  documentAlias,
-  querySelectorAll,
+  $addEventListener,
+  $getElementById,
+  $document,
+  $querySelectorAll,
   CLICK,
+  $arrayFrom,
 } from "./lib/util";
 import { GameMap, decode } from "./lib/map";
 
@@ -21,8 +22,8 @@ import { GameMap, decode } from "./lib/map";
       return;
     }
 
-    const canvas = getElementById(
-      documentAlias,
+    const canvas = $getElementById(
+      $document,
       "snake-canvas",
     ) as HTMLCanvasElement;
 
@@ -32,8 +33,8 @@ import { GameMap, decode } from "./lib/map";
       game.map = map;
     }
 
-    addEventListener(
-      documentAlias,
+    $addEventListener(
+      $document,
       "keypress",
       (e: KeyboardEvent) => game?.handleKeypress(e),
     );
@@ -49,7 +50,7 @@ import { GameMap, decode } from "./lib/map";
   };
 
   const saveMap = () => {
-    const text = getElementById(documentAlias, "map-textarea");
+    const text = $getElementById($document, "map-textarea");
     map = decode(text.value);
     closeModal();
     onStart();
@@ -57,19 +58,19 @@ import { GameMap, decode } from "./lib/map";
 
   const closeModal = () => mapModal.classList.remove("is-active");
 
-  const startButton = getElementById(documentAlias, "start-empty");
-  const mapModal = getElementById(documentAlias, "map-modal");
-  const startMap = getElementById(documentAlias, "start-map");
-  const loadMap = getElementById(documentAlias, "load-map");
+  const startButton = $getElementById($document, "start-empty");
+  const mapModal = $getElementById($document, "map-modal");
+  const startMap = $getElementById($document, "start-map");
+  const loadMap = $getElementById($document, "load-map");
 
-  const closeModalElements = Array.from(
-    querySelectorAll(documentAlias, ".close-map-modal"),
+  const closeModalElements = $arrayFrom(
+    $querySelectorAll($document, ".close-map-modal"),
   );
   for (const element of closeModalElements) {
-    addEventListener(element, CLICK, closeModal);
+    $addEventListener(element, CLICK, closeModal);
   }
 
-  addEventListener(startMap, CLICK, showMapPicker);
-  addEventListener(loadMap, CLICK, saveMap);
-  addEventListener(startButton, CLICK, onStart);
+  $addEventListener(startMap, CLICK, showMapPicker);
+  $addEventListener(loadMap, CLICK, saveMap);
+  $addEventListener(startButton, CLICK, onStart);
 })();

@@ -1,5 +1,5 @@
 import { Coordinate } from "./coordinate";
-import { getOwnPropertyNames } from "./util";
+import { $keys } from "./util";
 
 const requiredGameMapProps = new Set(["height", "width", "walls"]);
 const requiredCoordinateProps = new Set(["x", "y"]);
@@ -9,7 +9,7 @@ const checkRequiredProps = (
   requiredProps: Set<string>,
   target: string,
 ) => {
-  const props = new Set(getOwnPropertyNames(object));
+  const props = new Set($keys(object));
   for (const requiredProp of requiredProps.values()) {
     if (!props.has(requiredProp)) {
       throw new Error(`missing required property ${requiredProp} on ${target}`);

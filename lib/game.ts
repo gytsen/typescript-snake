@@ -2,7 +2,7 @@ import { Coordinate } from "./coordinate";
 import { GameMap } from "./map";
 import { Screen } from "./screen";
 import { Direction, Snake } from "./snake";
-import { random, floor, global, BROWN } from "./util";
+import { $random, $floor, $global, BROWN } from "./util";
 
 const HEIGHT = 24;
 const WIDTH = 24;
@@ -20,7 +20,7 @@ const FPS = 5;
 const FPS_MILLIS = 1000 / FPS;
 
 const boundedRandom = (max: number) => {
-  return floor(random() * floor(max));
+  return $floor($random() * $floor(max));
 };
 
 export class Game {
@@ -41,7 +41,7 @@ export class Game {
 
   public start(): void {
     this._interval = setInterval(
-      () => global.requestAnimationFrame(() => this._gameTick()),
+      () => $global.requestAnimationFrame(() => this._gameTick()),
       FPS_MILLIS,
     );
   }
