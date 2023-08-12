@@ -1,9 +1,10 @@
 import { Coordinate } from "./coordinate";
+import { floor } from "./util";
 
 const BLACK = "#000";
 
 export class Screen {
-  private readonly _canvas: HTMLCanvasElement;
+  public readonly _canvas: HTMLCanvasElement;
   private readonly _context: CanvasRenderingContext2D;
   private readonly _boxSize: number;
 
@@ -90,6 +91,9 @@ export class Screen {
   }
 
   public getCoordinateFromCanvas(c: Coordinate): Coordinate {
-    return new Coordinate(c.x / this._boxSize, c.y / this._boxSize);
+    return new Coordinate(
+      floor(c.x / this._boxSize),
+      floor(c.y / this._boxSize),
+    );
   }
 }

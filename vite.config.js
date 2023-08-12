@@ -1,4 +1,5 @@
 import { defineConfig } from "vite";
+import { resolve } from "node:path";
 
 // allows one to say
 // mangle: false in the below config for easy debugging
@@ -9,7 +10,8 @@ const mangle_opts = {
   ie8: false,
   safari10: false,
   properties: {
-    regex: "^_*",
+    regex: "^_",
+    debug: false,
   },
 };
 
@@ -27,6 +29,7 @@ const terser_prod_opts = {
     directives: true,
     drop_console: false,
     drop_debugger: true,
+    ecma: 2022,
     evaluate: true,
     expression: false,
     hoist_funs: true,
@@ -47,7 +50,6 @@ const terser_prod_opts = {
     properties: true,
     pure_funcs: [
       "uncurryThis",
-      "Number",
       "querySelector",
       "querySelectorAll",
       "getElementById",
@@ -98,5 +100,11 @@ export default defineConfig({
     target: "es2022",
     minify: "terser",
     terserOptions: terser_prod_opts,
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, "index.html"),
+        editor: resolve(__dirname, "editor.html"),
+      },
+    },
   },
 });

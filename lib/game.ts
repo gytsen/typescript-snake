@@ -1,7 +1,8 @@
 import { Coordinate } from "./coordinate";
+import { GameMap } from "./map";
 import { Screen } from "./screen";
 import { Direction, Snake } from "./snake";
-import { random, floor, global } from "./util";
+import { random, floor, global, BROWN } from "./util";
 
 const HEIGHT = 24;
 const WIDTH = 24;
@@ -26,6 +27,7 @@ export class Game {
   private readonly _snake: Snake;
   private readonly _screen: Screen;
   private _apple: Coordinate;
+  private _map: GameMap | undefined;
 
   private _interval: number | undefined;
 
@@ -34,6 +36,7 @@ export class Game {
     this._snake = new Snake();
     this._apple = this._generateApple();
     this._interval = undefined;
+    this._map = undefined;
   }
 
   public start(): void {
@@ -41,6 +44,10 @@ export class Game {
       () => global.requestAnimationFrame(() => this._gameTick()),
       FPS_MILLIS,
     );
+  }
+
+  public set map(map: GameMap) {
+    this._map = map;
   }
 
   public running(): boolean {
@@ -76,10 +83,13 @@ export class Game {
 
     this._screen.drawCoordinates(this._snake.body);
     this._screen.drawCoordinate(this._apple, RED);
+    if (this._map) {
+      this._screen.drawCoordinates(this._map._walls, BROWN);
+    }
   }
 
   private _isGameOver(head: Coordinate): boolean {
-    return this._snake.contains(head);
+    return this._snake.contains(head) || (this._map?.hasWall(head) ?? false);
   }
 
   private _generateApple(): Coordinate {
