@@ -25,7 +25,7 @@ const getCanvasPosition = (
 };
 
 const canvasClickHandler = (event: MouseEvent): void => {
-  const location = getCanvasPosition(screen._canvas, event);
+  const location = getCanvasPosition(screen.canvas, event);
   const coordinate = screen.getCoordinateFromCanvas(location);
 
   if (map.hasWall(coordinate)) {
@@ -34,10 +34,10 @@ const canvasClickHandler = (event: MouseEvent): void => {
     map.addWall(coordinate);
   }
 
-  wallCount.innerText = map._walls.length;
+  wallCount.innerText = map.size;
 
   screen.clear();
-  screen.drawCoordinates(map._walls, BROWN);
+  screen.drawCoordinates(map.walls, BROWN);
 };
 
 const download = (text: string) => {
@@ -60,7 +60,7 @@ const save = () => {
 
 const reset = () => {
   screen.clear();
-  map._walls = [];
+  map.walls = [];
   wallCount.innerText = 0;
 };
 
@@ -79,4 +79,4 @@ const map: GameMap = new GameMap(screen.width, screen.height, []);
 
 addEventListener(resetButton, CLICK, reset);
 addEventListener(saveButton, CLICK, save);
-addEventListener(screen._canvas, CLICK, canvasClickHandler);
+addEventListener(screen.canvas, CLICK, canvasClickHandler);

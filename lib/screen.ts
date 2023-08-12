@@ -4,7 +4,6 @@ import { floor } from "./util";
 const BLACK = "#000";
 
 export class Screen {
-  public readonly _canvas: HTMLCanvasElement;
   private readonly _context: CanvasRenderingContext2D;
   private readonly _boxSize: number;
 
@@ -13,6 +12,8 @@ export class Screen {
 
   public readonly height: number;
   public readonly width: number;
+
+  public readonly canvas: HTMLCanvasElement;
 
   constructor(
     canvas: HTMLCanvasElement,
@@ -30,7 +31,7 @@ export class Screen {
     this._boxSize = boxSize;
     this._borderSize = borderSize;
     this._borderTranspose = new Coordinate(borderSize, borderSize);
-    this._canvas = canvas;
+    this.canvas = canvas;
     this._context = canvas.getContext("2d")!;
 
     this.clear();
@@ -41,7 +42,7 @@ export class Screen {
   }
 
   public clear(): void {
-    this._context?.clearRect(0, 0, this._canvas.width, this._canvas.height);
+    this._context?.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
   public wrap(c: Coordinate): Coordinate {

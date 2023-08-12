@@ -53,10 +53,20 @@ export class GameMap {
 
   // uuuugh, O(n) searches because we can't
   // overload equality on sets
-  _findWallIndex(wall: Coordinate): number {
-    return this._walls.findIndex(
-      (value) => value.x === wall.x && value.y === wall.y,
-    );
+  private _findWallIndex(wall: Coordinate): number {
+    return this._walls.findIndex((value) => wall.equals(value));
+  }
+
+  get size(): number {
+    return this._walls.length;
+  }
+
+  get walls(): Coordinate[] {
+    return this._walls;
+  }
+
+  set walls(walls: Coordinate[]) {
+    this._walls = walls;
   }
 
   addWall(wall: Coordinate) {
