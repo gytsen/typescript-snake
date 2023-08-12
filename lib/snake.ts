@@ -1,4 +1,4 @@
-import { Coordinate } from "./coordinate";
+import { Coordinate, equals } from "./coordinate";
 
 export type Direction = 0 | 1 | 2 | 3;
 
@@ -46,11 +46,7 @@ export class Snake {
   }
 
   public contains(c: Coordinate): boolean {
-    return this._body.some((coordinate) => c.equals(coordinate));
-  }
-
-  public headHits(c: Coordinate): boolean {
-    return this.head.equals(c);
+    return this._body.some((coordinate) => equals(c, coordinate));
   }
 
   public requestDirectionChange(requested: Direction): void {
@@ -77,11 +73,9 @@ export class Snake {
   }
 
   public newHead(): Coordinate {
-    const head = this.head.copy();
     const direction = directionMapping[this._direction];
 
-    head.add(direction);
-    return head;
+    return new Coordinate(this.head.x + direction.x, this.head.y + direction.y);
   }
 
   public addNewHead(newHead: Coordinate, preserveTail: boolean = false): void {

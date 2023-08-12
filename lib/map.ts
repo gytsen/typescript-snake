@@ -1,4 +1,4 @@
-import { Coordinate } from "./coordinate";
+import { Coordinate, equals } from "./coordinate";
 import { $keys } from "./util";
 
 const requiredGameMapProps = new Set(["height", "width", "walls"]);
@@ -54,7 +54,7 @@ export class GameMap {
   // uuuugh, O(n) searches because we can't
   // overload equality on sets
   private _findWallIndex(wall: Coordinate): number {
-    return this._walls.findIndex((value) => wall.equals(value));
+    return this._walls.findIndex((value) => equals(wall, value));
   }
 
   get size(): number {

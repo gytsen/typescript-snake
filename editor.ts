@@ -1,6 +1,6 @@
 import "./styles.scss";
 
-import { Screen } from "./lib/screen";
+import { Screen, getCoordinateFromCanvas } from "./lib/screen";
 import { Coordinate } from "./lib/coordinate";
 import { GameMap } from "./lib/map";
 import {
@@ -26,7 +26,7 @@ const getCanvasPosition = (
 
 const canvasClickHandler = (event: MouseEvent): void => {
   const location = getCanvasPosition(screen.canvas, event);
-  const coordinate = screen.getCoordinateFromCanvas(location);
+  const coordinate = getCoordinateFromCanvas(location);
 
   if (map.hasWall(coordinate)) {
     map.removeWall(coordinate);

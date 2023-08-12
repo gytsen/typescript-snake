@@ -1,6 +1,6 @@
-import { Coordinate } from "./coordinate";
+import { Coordinate, equals } from "./coordinate";
 import { GameMap } from "./map";
-import { Screen } from "./screen";
+import { Screen, wrap } from "./screen";
 import {
   DIRECTION_DOWN,
   DIRECTION_LEFT,
@@ -70,14 +70,14 @@ export class Game {
 
     let head = this._snake.newHead();
 
-    head = this._screen.wrap(head);
+    head = wrap(this._screen, head);
 
     if (this._isGameOver(head)) {
       clearInterval(this._interval);
       this._interval = undefined;
     }
 
-    if (head.equals(this._apple)) {
+    if (equals(head, this._apple)) {
       this._apple = this._generateApple();
       preserveTail = true;
     }
@@ -85,7 +85,7 @@ export class Game {
     this._snake.addNewHead(head, preserveTail);
 
     this._screen.drawCoordinates(this._snake.body);
-    this._screen.drawCoordinate(this._apple, RED);
+    this._screen.drawCoordinates([this._apple], RED);
     if (this._map) {
       this._screen.drawCoordinates(this._map._walls, BROWN);
     }
