@@ -15,7 +15,6 @@ const ARROW_DOWN = ARROW + "Down";
 const ARROW_LEFT = ARROW + "Left";
 const ARROW_RIGHT = ARROW + "Right";
 
-
 const FPS = 5;
 const FPS_MILLIS = 1000 / FPS;
 
@@ -28,18 +27,19 @@ export class Game {
   private readonly _screen: Screen;
   private _apple: Coordinate;
 
-  private _interval: number | null;
+  private _interval: number | undefined;
 
   constructor(canvas: HTMLCanvasElement) {
     this._screen = new Screen(canvas);
     this._snake = new Snake();
     this._apple = this._generateApple();
+    this._interval = undefined;
   }
 
   public start(): void {
     this._interval = setInterval(
       () => global.requestAnimationFrame(() => this._gameTick()),
-      FPS_MILLIS
+      FPS_MILLIS,
     );
   }
 
@@ -64,7 +64,7 @@ export class Game {
 
     if (this._isGameOver(head)) {
       clearInterval(this._interval);
-      this._interval = null;
+      this._interval = undefined;
     }
 
     if (head.equals(this._apple)) {
@@ -88,7 +88,7 @@ export class Game {
     do {
       apple = new Coordinate(
         boundedRandom(this._screen.width),
-        boundedRandom(this._screen.height)
+        boundedRandom(this._screen.height),
       );
     } while (this._snake.contains(apple));
 

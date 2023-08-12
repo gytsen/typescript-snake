@@ -11,12 +11,17 @@ import { addEventListener, getElementById, documentAlias } from "./lib/util";
       return;
     }
 
-    const canvas = getElementById(documentAlias, "snake-canvas") as HTMLCanvasElement;
+    const canvas = getElementById(
+      documentAlias,
+      "snake-canvas",
+    ) as HTMLCanvasElement;
 
     game ??= new Game(canvas);
 
-    addEventListener(documentAlias, "keypress", (e: KeyboardEvent) =>
-      game.handleKeypress(e)
+    addEventListener(
+      documentAlias,
+      "keypress",
+      (e: KeyboardEvent) => game?.handleKeypress(e),
     );
     game.start();
   };

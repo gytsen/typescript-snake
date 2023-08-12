@@ -1,6 +1,6 @@
 import { Coordinate } from "./coordinate";
 
-export enum Direction {
+export const enum Direction {
   up,
   down,
   left,
@@ -74,8 +74,9 @@ export class Snake {
 
   public newHead(): Coordinate {
     const head = this.head.copy();
+    const direction = directionToCoordinate.get(this._direction)!;
 
-    head.add(directionToCoordinate.get(this._direction));
+    head.add(direction);
     return head;
   }
 

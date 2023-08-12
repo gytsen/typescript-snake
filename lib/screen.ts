@@ -16,11 +16,11 @@ export class Screen {
   constructor(
     canvas: HTMLCanvasElement,
     borderSize: number = 3,
-    boxSize: number = 20
+    boxSize: number = 20,
   ) {
     if (canvas.width % boxSize !== 0 || canvas.height % boxSize !== 0) {
       throw new Error(
-        `${canvas.height} or ${canvas.width} is not divisible by ${boxSize}`
+        `${canvas.height} or ${canvas.width} is not divisible by ${boxSize}`,
       );
     }
 
@@ -30,7 +30,7 @@ export class Screen {
     this._borderSize = borderSize;
     this._borderTranspose = new Coordinate(borderSize, borderSize);
     this._canvas = canvas;
-    this._context = canvas.getContext("2d");
+    this._context = canvas.getContext("2d")!;
 
     this.clear();
   }
@@ -40,7 +40,7 @@ export class Screen {
   }
 
   public clear(): void {
-    this._context.clearRect(0, 0, this._canvas.width, this._canvas.height);
+    this._context?.clearRect(0, 0, this._canvas.width, this._canvas.height);
   }
 
   public wrap(c: Coordinate): Coordinate {
@@ -64,7 +64,7 @@ export class Screen {
 
   public drawCoordinates(
     coordinates: Iterable<Coordinate>,
-    color: string = BLACK
+    color: string = BLACK,
   ): void {
     for (const coordinate of coordinates) {
       this.drawCoordinate(coordinate, color);
@@ -80,7 +80,7 @@ export class Screen {
       canvasPoint.x,
       canvasPoint.y,
       this._trimmedBoxSize,
-      this._trimmedBoxSize
+      this._trimmedBoxSize,
     );
     this._context.fillStyle = BLACK;
   }
