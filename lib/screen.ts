@@ -33,8 +33,8 @@ export class Screen {
   }
 
   public wrap(c: Coordinate): Coordinate {
-    let x = wrappingClamp(c.x, 0, this.width - 1);
-    let y = wrappingClamp(c.y, 0, this.height - 1);
+    const x = wrappingClamp(c.x, 0, this.width - 1);
+    const y = wrappingClamp(c.y, 0, this.height - 1);
 
     return new Coordinate(x, y);
   }

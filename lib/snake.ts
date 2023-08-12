@@ -1,46 +1,52 @@
 import { Coordinate } from "./coordinate";
 
-export const enum Direction {
-  up,
-  down,
-  left,
-  right,
-}
+export type Direction = 0 | 1 | 2 | 3;
 
-export const directionToCoordinate: Map<Direction, Coordinate> = new Map<
-  Direction,
-  Coordinate
->([
-  [Direction.up, new Coordinate(0, -1)],
-  [Direction.down, new Coordinate(0, 1)],
-  [Direction.left, new Coordinate(-1, 0)],
-  [Direction.right, new Coordinate(1, 0)],
-]);
+export const DIRECTION_UP: Direction = 0;
+export const DIRECTION_DOWN: Direction = 1;
+export const DIRECTION_LEFT: Direction = 2;
+export const DIRECTION_RIGHT: Direction = 3;
+
+export const directionMapping: {
+  0: Coordinate;
+  1: Coordinate;
+  2: Coordinate;
+  3: Coordinate;
+} = {
+  0: new Coordinate(0, -1),
+  1: new Coordinate(0, 1),
+  2: new Coordinate(-1, 0),
+  3: new Coordinate(1, 0),
+};
 
 const HEAD_INDEX = 0;
 
 export class Snake {
-  private _direction: Direction;
-  private _requestedDirection: Direction;
+  private _direction: 0 | 1 | 2 | 3;
+  private _requestedDirection: 0 | 1 | 2 | 3;
 
-  public readonly body: Coordinate[];
+  public readonly _body: Coordinate[];
 
   constructor() {
-    this.body = [new Coordinate(1, 0), new Coordinate(0, 0)];
-    this._direction = Direction.right;
-    this._requestedDirection = Direction.right;
+    this._body = [new Coordinate(1, 0), new Coordinate(0, 0)];
+    this._direction = DIRECTION_RIGHT;
+    this._requestedDirection = DIRECTION_RIGHT;
+  }
+
+  public get body(): Coordinate[] {
+    return this._body;
   }
 
   public get size(): number {
-    return this.body.length;
+    return this._body.length;
   }
 
   public get head(): Coordinate {
-    return this.body[HEAD_INDEX];
+    return this._body[HEAD_INDEX];
   }
 
   public contains(c: Coordinate): boolean {
-    return this.body.some((coordinate) => c.equals(coordinate));
+    return this._body.some((coordinate) => c.equals(coordinate));
   }
 
   public headHits(c: Coordinate): boolean {
@@ -55,10 +61,10 @@ export class Snake {
     const direction = this._direction;
     const requestedDirection = this._requestedDirection;
     return !(
-      (direction == Direction.up && requestedDirection == Direction.down) ||
-      (direction == Direction.down && requestedDirection == Direction.up) ||
-      (direction == Direction.left && requestedDirection == Direction.right) ||
-      (direction == Direction.right && requestedDirection == Direction.left)
+      (direction == DIRECTION_UP && requestedDirection == DIRECTION_DOWN) ||
+      (direction == DIRECTION_DOWN && requestedDirection == DIRECTION_UP) ||
+      (direction == DIRECTION_LEFT && requestedDirection == DIRECTION_LEFT) ||
+      (direction == DIRECTION_RIGHT && requestedDirection == DIRECTION_RIGHT)
     );
   }
 
@@ -72,16 +78,16 @@ export class Snake {
 
   public newHead(): Coordinate {
     const head = this.head.copy();
-    const direction = directionToCoordinate.get(this._direction)!;
+    const direction = directionMapping[this._direction];
 
     head.add(direction);
     return head;
   }
 
   public addNewHead(newHead: Coordinate, preserveTail: boolean = false): void {
-    this.body.unshift(newHead);
+    this._body.unshift(newHead);
     if (!preserveTail) {
-      this.body.pop();
+      this._body.pop();
     }
   }
 }

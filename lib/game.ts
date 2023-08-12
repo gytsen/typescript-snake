@@ -1,13 +1,16 @@
 import { Coordinate } from "./coordinate";
 import { GameMap } from "./map";
 import { Screen } from "./screen";
-import { Direction, Snake } from "./snake";
+import {
+  DIRECTION_DOWN,
+  DIRECTION_LEFT,
+  DIRECTION_RIGHT,
+  DIRECTION_UP,
+  Direction,
+  Snake,
+} from "./snake";
 import { $random, $floor, $global, BROWN } from "./util";
 
-const HEIGHT = 24;
-const WIDTH = 24;
-
-const BLACK = "#000";
 const RED = "#F00";
 
 const ARROW = "Arrow";
@@ -105,23 +108,27 @@ export class Game {
     return apple;
   }
 
+  private _requestDirectionChange(direction: Direction) {
+    this._snake.requestDirectionChange(direction);
+  }
+
   public handleKeypress(event: KeyboardEvent): void {
     switch (event.key) {
       case "w":
       case ARROW_UP:
-        this._snake.requestDirectionChange(Direction.up);
+        this._requestDirectionChange(DIRECTION_UP);
         break;
       case "s":
       case ARROW_DOWN:
-        this._snake.requestDirectionChange(Direction.down);
+        this._requestDirectionChange(DIRECTION_DOWN);
         break;
       case "a":
       case ARROW_LEFT:
-        this._snake.requestDirectionChange(Direction.left);
+        this._requestDirectionChange(DIRECTION_LEFT);
         break;
       case "d":
       case ARROW_RIGHT:
-        this._snake.requestDirectionChange(Direction.right);
+        this._requestDirectionChange(DIRECTION_RIGHT);
         break;
       default:
         break;
